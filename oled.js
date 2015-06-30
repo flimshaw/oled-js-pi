@@ -5,6 +5,7 @@ var Oled = function(opts) {
   this.HEIGHT = opts.height || 32;
   this.WIDTH = opts.width || 128;
   this.ADDRESS = opts.address || 0x3C;
+  this.I2C_DEVICE = opts.device || '/dev/i2c-0';
   this.PROTOCOL = 'I2C';
 
   // create command buffers
@@ -66,7 +67,7 @@ var Oled = function(opts) {
 
   // Setup i2c
   console.log('this.ADDRESS: ' + this.ADDRESS);
-  this.wire = new i2c(this.ADDRESS, {device: '/dev/i2c-0'}); // point to your i2c address, debug provides REPL interface
+  this.wire = new i2c(this.ADDRESS, {device: this.I2C_DEVICE}); // point to your i2c address, debug provides REPL interface
 
   var screenSize = this.WIDTH + 'x' + this.HEIGHT;
   this.screenConfig = config[screenSize];
