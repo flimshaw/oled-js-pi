@@ -2,8 +2,6 @@ var i2c = require('i2c');
 
 var Oled = function(opts) {
 
-  var _this = this;
-
   this.HEIGHT = opts.height || 32;
   this.WIDTH = opts.width || 128;
   this.ADDRESS = opts.address || 0x3C;
@@ -70,7 +68,7 @@ var Oled = function(opts) {
   // Setup i2c
   console.log('this.ADDRESS: ' + this.ADDRESS);
   this.wire = new i2c(this.ADDRESS, {device: this.I2C_DEVICE}); // point to your i2c address, debug provides REPL interface
-
+  
   var screenSize = this.WIDTH + 'x' + this.HEIGHT;
   this.screenConfig = config[screenSize];
 
@@ -120,8 +118,8 @@ Oled.prototype._transfer = function(type, val, fn) {
 
   // send control and actual val
   // this.board.io.i2cWrite(this.ADDRESS, [control, val]);
-  _this.wire.writeByte(control, function(err) {
-    _this.wire.writeByte(val, function(err) {
+  this.wire.writeByte(control, function(err) {
+    this.wire.writeByte(val, function(err) {
       fn();
     });
   });
@@ -129,7 +127,7 @@ Oled.prototype._transfer = function(type, val, fn) {
 
 // read a byte from the oled
 Oled.prototype._readI2C = function(fn) {
-  _this.wire.readByte(function(err, data) {
+  this.wire.readByte(function(err, data) {
     // result is single byte
     fn(data);
   });
